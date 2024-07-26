@@ -10,58 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
 
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>成大光復校區B測區GIS平臺</title>
+    <title>永續發展指標之多維地理資訊系統</title>
     <link rel="stylesheet" href="GIS_hompage.css" />
     <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css" />
-    <style>
-        /* Loading spinner */
-        #loadingSpinner {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #loadingSpinner .spinner {
-            width: 120px;
-            height: 120px;
-            background-image: url('SDG_Wheel_WEB.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        #loadingSpinner .progress {
-            margin-top: 20px;
-            width: 100px;
-            text-align: center;
-        }
-
-        /* Hide the main content initially */
-        body.loading #viewDiv,
-        body.loading .navbar {
-            display: none;
-        }
-
-        /* Show loading spinner initially */
-        body.loading #loadingSpinner {
-            display: flex;
-        }
-    </style>
 </head>
 
 <body class="loading">
@@ -71,17 +22,22 @@
     </div>
 
     <div class="navbar">
-        <a href="https://www.youtube.com" title="SDG7" data-hover="校園太陽能光電分析"
+        <a href="https://experience.arcgis.com/experience/c62c8902c3ac46d0a23f0a0ba2bd1dab/" title="SDG7" data-hover="校園太陽能光電分析"
             onmouseover="changeText(this, '校園太陽能光電分析')" onmouseout="resetText(this, 'SDG7 可負擔乾淨能源')"><img
                 src="icon/sdg7_icon.png" alt="icon1">SDG7 可負擔乾淨能源</a>
-        <a href="https://www.youtube.com" title="SDG10" data-hover="無障礙資訊" onmouseover="changeText(this, '無障礙資訊')"
+        <a href="https://experience.arcgis.com/experience/b093fb33464f4aa093fcfcbe80849d24/" title="SDG10" data-hover="無障礙資訊" onmouseover="changeText(this, '無障礙資訊')"
             onmouseout="resetText(this, 'SDG10 消弭不平等')"><img src="icon/sdg10_icon.png" alt="icon2">SDG10
             消弭不平等</a>
-        <a href="https://www.youtube.com" title="成大光復校區B測區GIS平臺">成大光復校區B測區GIS平臺</a>
-        <a href="https://www.youtube.com" title="SDG11" data-hover="校園綠建築與綠化指標"
+        <a href="https://alan-program.github.io/surveyingcampB/" title="永續發展指標之多維地理資訊系統" class="large-font">
+            <div class="vertical-text">
+                <div>永續發展指標之多維地理資訊系統</div>
+                <div class="small-text">112學年度測量總實習</div>
+            </div>
+        </a>
+        <a href="https://experience.arcgis.com/experience/7dc37916f418429fbcf217da40a6bbe9/" title="SDG11" data-hover="校園綠建築與綠化指標"
             onmouseover="changeText(this, '校園綠建築與綠化指標')" onmouseout="resetText(this, 'SDG11 永續城市與社區')"><img
                 src="icon/sdg11_icon.png" alt="icon3">SDG11 永續城市與社區</a>
-        <a href="https://www.youtube.com" title="SDG16" data-hover="校園安全回報" onmouseover="changeText(this, '校園安全回報')"
+        <a href="https://experience.arcgis.com/experience/161d8e4ab78447a682e35c7c71adaca2/" title="SDG16" data-hover="校園安全回報" onmouseover="changeText(this, '校園安全回報')"
             onmouseout="resetText(this, 'SDG16 和平與正義制度')"><img src="icon/sdg16_icon.png" alt="icon4">SDG16
             和平與正義制度</a>
     </div>
@@ -131,10 +87,6 @@
                     loadingProgress.textContent = progress + '%';
                     document.body.classList.remove('loading');
                     document.getElementById('loadingSpinner').style.display = 'none';
-                    const titleDiv = document.createElement("div");
-                    titleDiv.innerHTML = scene.portalItem.title;
-                    titleDiv.id = "titleDiv";
-                    document.body.appendChild(titleDiv);
                 });
 
                 view.when(() => {
@@ -144,9 +96,9 @@
                     view.ui.add(layerList, "bottom-right");
                 });
 
-                // 二維建物面圖層
+                // 二維建物面圖層+照片
                 const twodBuilding = new FeatureLayer({
-                    url: "https://services5.arcgis.com/yqmzFsAzBUNEIWLw/arcgis/rest/services/2D%E5%BB%BA%E7%89%A9%E6%A1%86/FeatureServer",
+                    url: "https://services5.arcgis.com/yqmzFsAzBUNEIWLw/arcgis/rest/services/2D%E5%BB%BA%E7%89%A9%E6%A1%86%E7%85%A7%E7%89%87/FeatureServer",
                     elevationInfo: "on-the-ground",
                     title: "二維建物面",
                     overwriteActions: true,
@@ -154,6 +106,9 @@
                         title: "{建物名}",
                         outFields: ["*"],
                         content: [
+                            {
+                                type: "attachments"
+                            },
                             {
                                 type: "fields",
                                 fieldInfos: [{
@@ -171,6 +126,7 @@
                         ]
                     }
                 });
+                view.popup.alignment = "top-right";
                 scene.add(twodBuilding);
 
                 //校園景點icon
